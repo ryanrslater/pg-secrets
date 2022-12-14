@@ -1,0 +1,34 @@
+{
+  "name": "pg-secrets",
+  "version": "1.0.0",
+  "description": "Postgres adapter for AWS secrets manager",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryanrslater/pg-secrets.git"
+  },
+  "keywords": [
+    "Postgres",
+    "pg",
+    "aws",
+    "secrets",
+    "manager"
+  ],
+  "author": "ryanrslater",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ryanrslater/pg-secrets/issues"
+  },
+  "homepage": "https://github.com/ryanrslater/pg-secrets#readme",
+  "dependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.229.0",
+    "pg": "^8.8.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.15",
+    "typescript": "^4.9.4"
+  }
+}
