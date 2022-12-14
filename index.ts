@@ -42,6 +42,12 @@ class PgSecrets {
         await client.connect()
         return client
     }
+    async pool(): Promise<pg.Pool> {
+        const data = await this.getSecret()
+        const pool = new pg.Pool(data)
+        await pool.connect()
+        return pool
+    }
 }
 
 export default PgSecrets
