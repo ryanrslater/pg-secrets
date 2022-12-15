@@ -2,6 +2,14 @@ import pg from 'pg'
 
 import { SecretsManagerClient, GetSecretValueCommand, SecretsManagerClientConfig, GetSecretValueCommandInput } from '@aws-sdk/client-secrets-manager'
 
+type SecretResponse = {
+    username: string
+    password: string
+    host: string
+    port: number
+    database: string
+}
+
 class PgSecrets {
     private readonly secretClient: SecretsManagerClient
     private readonly secretArn: string | undefined
@@ -25,25 +33,43 @@ class PgSecrets {
         this.secretArn = process.env.SECRET_ARN
     }
 
-    private async getSecret(): Promise<pg.ClientConfig> {
+    private async getSecret(): Promise<SecretResponse> {
         const config: GetSecretValueCommandInput = {
             SecretId: undefined
         }
         const res = await this.secretClient.send(new GetSecretValueCommand(config))
         if (!res.SecretString) throw new Error('Secret not found')
-        const data = JSON.parse(res.SecretString) as pg.ClientConfig
+        const data = JSON.parse(res.SecretString) as SecretResponse
 
         return data
 
     }
     async client(): Promise<pg.Client> {
+ 
         const data = await this.getSecret()
-        const client = new pg.Client(data)
+
+        const clientCongig: pg.ClientConfig = {
+            user: data.username,
+            password: data.password,
+            host: data.host,
+            port: data.port,
+            database: data.database
+        }
+        const client = new pg.Client(clientCongig)
         return client
     }
     async pool(): Promise<pg.Pool> {
         const data = await this.getSecret()
-        const pool = new pg.Pool(data)
+
+        const poolConfig: pg.PoolConfig = {
+            user: data.username,
+            password: data.password,
+            host: data.host,
+            port: data.port,
+            database: data.database
+        }
+
+        const pool = new pg.Pool(poolConfig)
         return pool
     }
 }
