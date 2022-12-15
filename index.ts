@@ -39,13 +39,11 @@ class PgSecrets {
     async client(): Promise<pg.Client> {
         const data = await this.getSecret()
         const client = new pg.Client(data)
-        await client.connect()
         return client
     }
     async pool(): Promise<pg.Pool> {
         const data = await this.getSecret()
         const pool = new pg.Pool(data)
-        await pool.connect()
         return pool
     }
 }
