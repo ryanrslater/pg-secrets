@@ -12,13 +12,11 @@ type SecretResponse = {
 
 class PgSecrets {
     private readonly secretClient: SecretsManagerClient
-    private readonly secretArn: string | undefined
     private readonly region: string | undefined
     private readonly accessKeyId: string | undefined
     private readonly secretAccessKey: string | undefined
 
     constructor() {
-        if (!this.secretArn) throw new Error('Secret ARN not found')
         if (!this.region) throw new Error('Region not found')
         if (!this.accessKeyId) throw new Error('Access Key ID not found')
         if (!this.secretAccessKey) throw new Error('Secret Access Key not found')
@@ -30,7 +28,6 @@ class PgSecrets {
             region: this.region
         }
         this.secretClient = new SecretsManagerClient(config)
-        this.secretArn = process.env.SECRET_ARN
     }
 
     private async getSecret(): Promise<SecretResponse> {
