@@ -41,6 +41,11 @@ class PgSecrets {
         return data
 
     }
+
+    /**
+     * Returns a Postgres Client
+     * @returns pg.Client
+     */
     async client(): Promise<pg.Client> {
  
         const data = await this.getSecret()
@@ -55,6 +60,11 @@ class PgSecrets {
         const client = new pg.Client(clientCongig)
         return client
     }
+
+    /**
+     * returns a Postgres Pool
+     * @returns pg.Pool
+     */
     async pool(): Promise<pg.Pool> {
         const data = await this.getSecret()
 
